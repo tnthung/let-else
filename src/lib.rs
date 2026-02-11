@@ -77,7 +77,7 @@ impl syn::parse::Parse for Rest {
       return Ok(Self::Complete(complete));
     }
 
-    Err(input.error("Expected a simple or complete rest block"))
+    Err(input.error("Expected `as` or `match` after `else`"))
   }
 }
 
