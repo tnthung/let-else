@@ -2,9 +2,22 @@ use quote::quote;
 use syn::parse::discouraged::Speculative;
 
 
-/// A procedural macro that enhance the `let-else` syntax in Rust.
+/// A procedural macro that extends `let-else` with explicit else bindings.
 ///
-/// # Example
+/// # Syntax
+///
+/// ```rs
+/// let_else!(PAT = EXPR else as REST { /* else block */ });
+/// let_else!(PAT = EXPR else match { /* match arms */ });
+/// ```
+///
+/// `REST` can be a pattern (including `|`-separated patterns) or a single
+/// identifier. When `match` is used, provide full match arms for the else
+/// branch.
+///
+/// # Examples
+///
+/// Simple else binding:
 ///
 /// ```rs, no_run
 /// fn foo(value: Result<i32, String>) {
@@ -14,6 +27,24 @@ use syn::parse::discouraged::Speculative;
 ///   });
 /// }
 /// ```
+///
+/// Complete else match:
+///
+/// ```rs, no_run
+/// fn bar(value: Result<i32, String>) {
+///   let_else!(Ok(value) = value else match {
+///     Err(err) => {
+///       eprintln!("Error: {}", err);
+///       return;
+///     }
+///   });
+/// }
+/// ```
+///
+/// # Notes
+///
+/// - The expression is evaluated once and reused in the else branch.
+/// - The macro generates an unreachable arm for the success pattern.
 #[proc_macro]
 pub fn let_else(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
   let Input { pattern, expr, rest, .. } = syn::parse_macro_input!(input as Input);
