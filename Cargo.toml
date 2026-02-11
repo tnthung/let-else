@@ -3,7 +3,7 @@ name = "let-else"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-keywords = ["let-else", "procedural macro", "syntax extension", "quality of life", "qol"]
+keywords = ["let-else", "macro", "syntax", "qol"]
 repository = "https://github.com/tnthung/let-else"
 description = "A procedural macro that enhance the `let-else` syntax in Rust."
 
