@@ -133,14 +133,14 @@ impl quote::ToTokens for RestBound {
 
 
 struct CompleteRest {
-  kw_match: syn::Token![match],
-  arms:     Vec<syn::Arm>,
+  _kw_match: syn::Token![match],
+  arms:      Vec<syn::Arm>,
 }
 
 impl syn::parse::Parse for CompleteRest {
   fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
     Ok(Self {
-      kw_match: input.parse()?,
+      _kw_match: input.parse()?,
       arms: {
         let content;
         syn::braced!(content in input);
