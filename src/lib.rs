@@ -96,16 +96,15 @@ enum Rest {
 
 impl syn::parse::Parse for Rest {
   fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-    let fork = input.fork();
-    if let Ok(simple) = fork.parse() {
-      input.advance_to(&fork);
-      return Ok(Self::Simple(simple));
+    if input.peek(syn::Token![match]) {
+      return Ok(Self::Complete(input.parse()?));
     }
 
-    let fork = input.fork();
-    if let Ok(complete) = fork.parse() {
-      input.advance_to(&fork);
-      return Ok(Self::Complete(complete));
+    if input.peek(syn::Token![as])
+    || input.peek(syn::Token![|])
+    || input.peek(syn::token::Brace)
+    {
+      return Ok(Self::Simple  (input.parse()?));
     }
 
     Err(input.error("Expected `as` or `match` after `else`"))

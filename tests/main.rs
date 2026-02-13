@@ -107,7 +107,7 @@ mod tests {
     }
 
     fn foo(value: Triple) -> String {
-      let_else!(Triple::A(value) = value else as Triple::B(y) | Triple::C(y) {
+      let_else!(Triple::A(value) = value else as | Triple::B(y) | Triple::C(y) {
         return format!("Error: B or C with value {}", y);
       });
 
